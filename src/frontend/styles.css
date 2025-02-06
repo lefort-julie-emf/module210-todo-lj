@@ -26,7 +26,7 @@ body {
 .app-container h1 {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #007bff;
+  color: #ff98cc;
   font-weight: bold;
 }
 
@@ -48,12 +48,12 @@ body {
 }
 
 #todo-input:focus {
-  border-color: #007bff;
+  border-color: #ffaad9;
 }
 
 button {
   padding: 10px 15px;
-  background-color: #007bff;
+  background-color: #ffa2d8;
   color: white;
   border: none;
   border-radius: 0 8px 8px 0;
@@ -62,7 +62,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #b65f94;
 }
 
 /* Liste des tâches */
@@ -91,7 +91,7 @@ button:hover {
 
 #todo-list li.completed {
   text-decoration: line-through;
-  color: #888;
+  color: #bd97ac;
   background: #e6e6e6;
 }
 
@@ -99,14 +99,14 @@ button:hover {
 .delete-btn {
   background: none;
   border: none;
-  color: #e74c3c;
+  color: #ff3da8;
   cursor: pointer;
   font-size: 1rem;
   transition: color 0.3s ease;
 }
 
 .delete-btn:hover {
-  color: #c0392b;
+  color: #c02b7d;
 }
 
 /* Checkboxes */
@@ -114,7 +114,7 @@ button:hover {
   margin-right: 10px;
   transform: scale(1.2);
   cursor: pointer;
-  accent-color: #007bff;
+  accent-color: #ff88ca;
 }
 
 /* Responsivité */
