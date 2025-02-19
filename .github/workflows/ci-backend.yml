@@ -9,7 +9,7 @@ on:
 
 env:
   REGISTRY: "exo.container-registry.com"
-  REPOSITORY: "c213-emf/todo-frontend" # Repository correct
+  REPOSITORY: "todo-app" # Repository correct
   IMAGE_TAG: "jlcem" # Tag correct
 
 jobs:
