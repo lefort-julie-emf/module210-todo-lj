@@ -1,30 +1,35 @@
-name: Push Existing Docker Image to Exoscale
-
+name: Build and save my Docker image to a regitry
+ 
 on:
   push:
-    branches:
-      - main
     paths:
-      - "frontend/**"  # Ne s'exécute que si le frontend est modifié
-
+      - 'src/backend/**'  # Déclenchement lorsque le code est modifié
+ 
 env:
-  REGISTRY: "exo.container-registry.com"
-  REPOSITORY: "c213-emf/todo-app" # Repository correct
-  IMAGE_TAG: "jlcem" # Tag correct
-
+  REG_NAME: "exo.container-registry.com" # Nom du registre sans "azurecr.io"
+  IMAGE_NAME: "todo-app" # Nom de votre image dans acr
+ 
 jobs:
-  push-existing-image:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
+ 
     steps:
-      - name: Checkout du code
+      - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Se connecter à Exoscale Registry
-        run: echo "${{ secrets.EXOSCALE_PASSWORD }}" | docker login -u "${{ secrets.EXOSCALE_USERNAME }}" --password-stdin ${{ env.REGISTRY }}
-
-      - name: Vérifier si l'image existe localement
-        run: docker images | grep "${{ env.REPOSITORY }}" || echo "⚠️ L'image n'existe pas localement."
-
-      - name: Pousser l'image vers Exoscale
-        run: docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}
+ 
+      - name: connection to repo
+        run: |
+          docker login -u quentin.badoud@edufr.ch -p ${{ secrets.DOCKER_PASSWORD }} $REG_NAME
+ 
+      - name: build docker image
+        run: |
+          cd ./src/backend
+          docker build -t $IMAGE_NAME .
+ 
+      - name: tag image
+        run: |
+          docker tag $IMAGE_NAME $REG_NAME/c213-emf/$IMAGE_NAME:dd
+ 
+      - name: push image 
+        run: |
+          docker push $REG_NAME/c213-emf/$IMAGE_NAME:dd
