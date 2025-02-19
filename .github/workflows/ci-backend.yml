@@ -1,0 +1,30 @@
+name: Push Existing Docker Image to Exoscale
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "frontend/**"  # Ne s'exécute que si le frontend est modifié
+
+env:
+  REGISTRY: "exo.container-registry.com"
+  REPOSITORY: "c213-emf/todo-frontend" # Repository correct
+  IMAGE_TAG: "jlcem" # Tag correct
+
+jobs:
+  push-existing-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v3
+
+      - name: Se connecter à Exoscale Registry
+        run: echo "${{ secrets.EXOSCALE_PASSWORD }}" | docker login -u "${{ secrets.EXOSCALE_USERNAME }}" --password-stdin ${{ env.REGISTRY }}
+
+      - name: Vérifier si l'image existe localement
+        run: docker images | grep "${{ env.REPOSITORY }}" || echo "⚠️ L'image n'existe pas localement."
+
+      - name: Pousser l'image vers Exoscale
+        run: docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}
